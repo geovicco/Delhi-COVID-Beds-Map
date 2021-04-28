@@ -66,7 +66,7 @@ def create_map():
     df['marker_color'] = pd.cut(df['vacant'].astype(int), bins=10, 
                                   labels=['gray', 'darkred','red', 'lightred', 'orange', 'lightblue', 'blue', 'darkblue', 'lightgreen','green'])
 
-    m = folium.Map(location=[28.65, 77.25], zoom_start=10.5)
+    m = folium.Map(location=[28.65, 77.06], zoom_start=10.5)
     for name, typ, total, occupied, vacant, last_updated, lat, lon, color in zip(df.Name, df.type_x, df.total, df.occupied, df.vacant, df.last_updated_at, df.Latitude, df.Longitude, df.marker_color):
         folium.Marker(
             [lat,lon],
