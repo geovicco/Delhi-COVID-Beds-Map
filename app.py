@@ -48,9 +48,14 @@ def map_script():
     ndf = pd.merge(beds_df, df, on='Name', how='right').dropna() # Dataframe containing details of all hospitals with beds information
 
     # Assign a color based on the number of vacant beds
-    ndf['marker_color'] = pd.cut(ndf['vacant'].astype(int), bins=10, 
-                                  labels=['gray', 'darkred','red', 'lightred', 'orange', 'lightblue', 'blue', 'darkblue', 'lightgreen','green'])
+    ndf['marker_color'] = pd.cut(ndf[ndf['vacant'] > 0]['vacant'], bins=9, 
+                                  labels=['darkred','red', 'lightred', 'orange', 'lightblue', 'blue', 'darkblue', 'lightgreen','green'])
+    
+    # As of May 3rd, 2021 - Some hospitals with available beds are incorrectly color-coded due to a significantly large range of the total available beds.
+    # We can filter out the hospitals with 0 beds and assign grey color to them.
 
+    ndf['marker_color'] = ndf['marker_color'].astype(str).fillna('gray')
+    
     # m = folium.Map(location=[28.65, 77.05], zoom_start=10.5)
     m = folium.Map(location=[28.65, 77.05], zoom_start= 10.5, tiles=None)
     base_map = folium.FeatureGroup(name='Basemap', overlay=True, control=False)
