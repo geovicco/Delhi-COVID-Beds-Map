@@ -80,8 +80,8 @@ def map_script():
     mdf = pd.merge(ventilators_df, df, on='Name', how='right').dropna() # Dataframe containing details of all hospitals with beds information
 
     # Assign a color based on the number of vacant beds
-    mdf['marker_color'] = pd.cut(mdf['vacant'].astype(int), bins=10, 
-                                  labels=['gray', 'darkred','red', 'lightred', 'orange', 'lightblue', 'blue', 'darkblue', 'lightgreen','green'])
+    mdf['marker_color'] = pd.cut(mdf['vacant'].astype(int), bins=3, 
+                                  labels=['gray', 'red', 'green'])
 
     ventilators = folium.FeatureGroup(name="Ventilators", overlay=False)
     for name, typ, total, occupied, vacant, last_updated, lat, lon, color in zip(mdf.Name, mdf.type_x, mdf.total, mdf.occupied, mdf.vacant, mdf.last_updated_at, mdf.Latitude, mdf.Longitude, mdf.marker_color):
